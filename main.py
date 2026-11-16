@@ -1,6 +1,7 @@
 import json
+import random
 import os
-from random import choices
+
 
 class Quiz:
     """퀴즈 정보를 담는 클래스"""
@@ -41,7 +42,16 @@ class QuizGame:
     def set_default_quizzes(self):
         # 본인이 선택한 주제의 퀴즈 5개 이상 작성
         self.quizzes = [
-            Quiz("Python에서 리스트 끝에 요소를 추가하는 메서드는?", ["add()", "push()", "append()", "insert()"], 3),
+            Quiz("Python에서 리스트 끝에 요소를 추가하는 메서드는?",
+                ["add()", "push()", "append()", "insert()"], 3),
+            Quiz("Python에서 주석을 작성할 때 사용하는 기호는?",
+                ["//", "#", "/**/", "--"], 2),
+            Quiz("리스트의 길이를 구하는 함수는?",
+                ["size()", "length()", "len()", "count()"], 3),
+            Quiz("문자열을 대문자로 바꾸는 메서드는?",
+                ["upper()", "big()", "capital()", "toUpper()"], 1),
+            Quiz("python의 참/거짓 자료형이름은?",
+                 ["boolean", "bool", "logic", "bit"], 2),
             # ... 추가 4개 이상
         ]
         self.save_data()
@@ -87,6 +97,27 @@ class QuizGame:
         self.quizzes.append(Quiz(question, choices, answer))
         self.save_data()
         print("✅ 퀴즈가 추가되었습니다!")
+    def delete_quiz(self):
+        """퀴즈 삭제"""
+        if not self.quizzes:
+            print("삭제할 퀴즈가 없어요!")
+            return
+
+    # 1. 목록 보여주기
+        for i, q in enumerate(self.quizzes, 1):
+            print(f"[{i}] {q.question}")        # ← question 확인 완료!
+
+    # 2. 번호 입력 (range로 전달!)
+        num = self.get_input(
+            "삭제할 번호: ",
+            input_type=int,
+            valid_range=range(1, len(self.quizzes) + 1)  # ← range 객체!
+        )
+
+    # 3. 삭제 + 저장
+        del self.quizzes[num - 1]
+        self.save_data()
+        print("✅ 삭제 완료!")
 
     def show_list(self):
         print("\n--- 퀴즈 목록 ---")
@@ -96,14 +127,17 @@ class QuizGame:
     def play_game(self):
         current_score = 0
         print("\n🚀 퀴즈를 시작합니다!")
-        for i, q in enumerate(self.quizzes, 1):
+
+        quizzes = self.quizzes[:]
+        random.shuffle(quizzes)  # 문제 순서 랜덤화
+        for i, q in enumerate(quizzes, 1):
             q.display(i)              # 문제 + 보기 출력
             user_ans = input("정답 번호 입력 (1~4): ").strip()
-        if user_ans == str(q.answer):    # 숫자를 문자로 비교
-            print("✅ 정답입니다!")
-            current_score += 1
-        else:
-            print(f"❌ 틀렸습니다. 정답은 {q.answer}번입니다.")
+            if user_ans == str(q.answer):    # 숫자를 문자로 비교
+                print("✅ 정답입니다!")
+                current_score += 1
+            else:
+                print(f"❌ 틀렸습니다. 정답은 {q.answer}번입니다.")
 
         print(f"\n게임 종료! 당신의 점수: {current_score}/{len(self.quizzes)}")
         if current_score > self.best_score:
@@ -117,13 +151,14 @@ class QuizGame:
     def run(self):
         while True:
             print("\n--- 퀴즈 게임 메뉴 ---")
-            print("1. 퀴즈 풀기  2. 퀴즈 추가  3. 퀴즈 목록  4. 최고 점수 확인  5. 종료")
-            choice = self.get_input("선택: ", int, range(1, 6))
+            print("1. 퀴즈 풀기  2. 퀴즈 추가  3. 퀴즈 목록  4. 최고 점수 확인  5. 퀴즈 삭제  6. 종료")
+            choice = self.get_input("선택: ", int, range(1, 7))
             if choice == 1: self.play_game()
             elif choice == 2: self.add_quiz()
             elif choice == 3: self.show_list()
             elif choice == 4: self.show_score()
-            elif choice == 5: 
+            elif choice == 5: self.delete_quiz()
+            elif choice == 6: 
                 print("게임을 종료합니다.")
                 break
             else: print("잘못된 선택입니다.")
