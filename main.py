@@ -1,5 +1,6 @@
 import json
 import random
+import shutil
 from datetime import datetime
 from pathlib import Path
 
@@ -194,6 +195,14 @@ class QuizGame:
             "score_history": self.score_history,
             "score_scale": 100,
         }
+        backup_path = self.file_path.with_name(self.file_path.name + ".bak")
+        try:
+            if self.file_path.exists():
+                shutil.copy2(self.file_path, backup_path)
+        except OSError as error:
+            print(f"⚠️ 백업 파일을 만들지 못해 저장을 취소했습니다: {error}")
+            return False
+
         try:
             with self.file_path.open("w", encoding="utf-8") as file:
                 json.dump(data, file, ensure_ascii=False, indent=4)

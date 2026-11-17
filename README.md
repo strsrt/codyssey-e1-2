@@ -20,6 +20,16 @@ Ctrl+C 또는 입력 스트림 종료 상황에서 저장을 시도한 뒤 안�
 
 게임 데이터는 `main.py`와 같은 프로젝트 루트의 `state.json`에 UTF-8 JSON으로 저장하고 불러옵니다.
 
+## 요구사항 변경 시 수정 위치
+
+| 변경 내용 | 관련 위치 |
+| --- | --- |
+| 퀴즈 항목·선택지·힌트 필드 변경 | `Quiz.__init__`, `Quiz.to_dict`, `QuizGame.default_quizzes`, `QuizGame._parse_state` |
+| 점수 계산·힌트 사용 점수 반영 | `QuizGame.play_game`의 정답 처리와 `final_score` 계산 |
+| 메뉴·입력 검증·퀴즈 추가/삭제/힌트 관리 | `QuizGame.run`, `get_input`, `add_quiz`, `delete_quiz`, `add_hint` |
+| 데이터 스키마·불러오기·저장·백업 변경 | `QuizGame._parse_state`, `load_data`, `save_data` 및 아래 `state.json` 설명 |
+| 점수 기록 표시 변경 | `QuizGame.show_score_history` |
+
 ## GitHub 저장소와 브랜치 이력
 
 - 원격 저장소: [strsrt/codyssey-e1-2](https://github.com/strsrt/codyssey-e1-2)
@@ -83,6 +93,7 @@ python quiz_game.py
 ├── main.py       # Quiz, QuizGame 클래스와 게임 로직
 ├── quiz_game.py  # main.py를 호출하는 실행 진입점
 ├── state.json    # 퀴즈, 최고 점수, 점수 기록 저장 파일
+├── state.json.bak  # 저장 직전 state.json 백업(자동 생성)
 ├── screenshots/  # README 실행 화면 및 Git 이력 이미지
 ├── README.md
 ├── .gitignore
@@ -117,6 +128,22 @@ python quiz_game.py
 ## 데이터 파일 설명
 
 `state.json`은 `main.py`와 같은 프로젝트 루트에 위치하며 UTF-8 인코딩으로 저장됩니다. 파일이 없으면 기본 퀴즈로 생성하고, 손상된 경우 안내 후 기본 데이터로 초기화합니다. 파일 구조는 다음과 같습니다.
+
+기존 `state.json`을 덮어쓸 때는 먼저 같은 폴더의 `state.json.bak`으로 복사합니다. 백업 생성에 실패하면 원본 파일을 덮어쓰지 않습니다. 백업은 직전 저장 상태 하나만 보관하므로 다음 저장 시 갱신됩니다.
+
+### 백업에서 복원하기
+
+1. 게임을 종료합니다.
+2. 프로젝트 루트에서 현재 파일을 보존하고 백업으로 복원합니다.
+
+```powershell
+if (Test-Path .\state.json) {
+    Copy-Item .\state.json .\state.json.before-restore
+}
+Copy-Item .\state.json.bak .\state.json -Force
+```
+
+`state.json.bak`이 없으면 저장 전 백업이 생성되지 않은 첫 실행 상태일 수 있습니다. 복원 후 게임을 실행해 퀴즈와 점수를 확인하세요.
 
 - `quizzes`: 문제 목록
   - `question`: 문제 내용
