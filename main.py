@@ -290,7 +290,7 @@ class QuizGame:
     def run(self):
         while True:
             print("\n--- 퀴즈 게임 메뉴 ---")
-            print("1. 퀴즈 풀기  2. 퀴즈 추가  3. 퀴즈 목록  4. 최고 점수 확인  5. 종료  6. 퀴즈 삭제  7. 점수 기록")
+            print("1. 퀴즈 풀기  2. 퀴즈 추가  3. 퀴즈 목록  4. 최고 점수 확인  5. 퀴즈 삭제  6. 점수 기록  7. 종료")
             choice = self.get_input("선택: ", int, range(1, 8))
             if choice == 1:
                 self.play_game()
@@ -300,9 +300,9 @@ class QuizGame:
                 self.show_list()
             elif choice == 4:
                 self.show_score()
-            elif choice == 6:
+            elif choice == 5:
                 self.delete_quiz()
-            elif choice == 7:
+            elif choice == 6:
                 self.show_score_history()
             else:
                 print("게임을 종료합니다.")
