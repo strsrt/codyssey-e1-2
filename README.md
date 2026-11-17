@@ -81,6 +81,25 @@ python quiz_game.py
 
 힌트를 사용하지 않고 모든 문제를 맞히면 100점입니다. 점수는 가장 가까운 정수로 반올림합니다.
 
+## 테스트 실행 기록
+
+`Quiz.is_correct`의 정답/오답 판정과 `QuizGame.get_input`의 공백 제거, 잘못된 입력 재요청, EOF 안전 종료를 테스트합니다. 프로젝트 루트에서 다음 명령으로 실행합니다.
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+최근 실행 결과:
+
+```text
+test_get_input_converts_eof_to_graceful_exit (test_quiz_behavior.QuizBehaviorTests.test_get_input_converts_eof_to_graceful_exit) ... ok
+test_get_input_trims_and_retries_invalid_values (test_quiz_behavior.QuizBehaviorTests.test_get_input_trims_and_retries_invalid_values) ... ok
+test_is_correct_matches_only_the_answer (test_quiz_behavior.QuizBehaviorTests.test_is_correct_matches_only_the_answer) ... ok
+
+Ran 3 tests in 0.004s
+OK
+```
+
 ## 대량 퀴즈 데이터 처리 (1,000개 이상)
 
 현재 구현은 퀴즈 전체를 `state.json`에서 메모리로 불러와 처리합니다. 1,000개 정도는 일반적인 로컬 환경에서 충분히 다룰 수 있을 것으로 예상되지만, 별도의 성능·메모리 벤치마크는 수행하지 않았습니다. 데이터가 커지면 다음 지점이 병목이 될 수 있습니다.
@@ -101,6 +120,7 @@ python quiz_game.py
 ├── state.json    # 퀴즈, 최고 점수, 점수 기록 저장 파일
 ├── state.json.bak  # 저장 직전 state.json 백업(자동 생성)
 ├── screenshots/  # README 실행 화면 및 Git 이력 이미지
+├── tests/          # 동작 단위 테스트
 ├── README.md
 ├── .gitignore
 ```
