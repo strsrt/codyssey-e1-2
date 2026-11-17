@@ -20,6 +20,15 @@ Ctrl+C 또는 입력 스트림 종료 상황에서 저장을 시도한 뒤 안�
 
 게임 데이터는 `main.py`와 같은 프로젝트 루트의 `state.json`에 UTF-8 JSON으로 저장하고 불러옵니다.
 
+## GitHub 저장소와 브랜치 이력
+
+- 원격 저장소: [strsrt/codyssey-e1-2](https://github.com/strsrt/codyssey-e1-2)
+- 커밋 이력: [GitHub commits](https://github.com/strsrt/codyssey-e1-2/commits/main)
+
+퀴즈 게임 기능은 `feature/quiz-game` 브랜치에서 작업한 뒤 `main`에 병합했습니다. 아래는 해당 브랜치 생성·작업·병합 과정을 보여주는 Git 로그 그래프입니다.
+
+![feature/quiz-game 브랜치 생성 및 main 병합 로그](screenshots/git-branch-history.svg)
+
 ## 퀴즈 주제와 선정 이유
 
 주제는 Python 기본 문법입니다. 리스트, 딕셔너리, 반복문, 함수, 논리값은 실제 프로그래밍을 시작할 때 가장 자주 접하는 개념이어서 선택했습니다.
@@ -63,7 +72,7 @@ python quiz_game.py
 ├── main.py       # Quiz, QuizGame 클래스와 게임 로직
 ├── quiz_game.py  # main.py를 호출하는 실행 진입점
 ├── state.json    # 퀴즈, 최고 점수, 점수 기록 저장 파일
-├── screenshots/  # README 실행 예시 이미지
+├── screenshots/  # README 실행 화면 및 Git 이력 이미지
 ├── README.md
 ├── .gitignore
 ```

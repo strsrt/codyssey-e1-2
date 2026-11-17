@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="340" viewBox="0 0 1160 340" role="img" aria-labelledby="title description">
+  <title id="title">Quiz game branch and merge history</title>
+  <desc id="description">The feature/quiz-game branch commit is merged into main.</desc>
+  <rect width="1160" height="340" rx="12" fill="#0d1117"/>
+  <text x="32" y="42" fill="#c9d1d9" font-family="Consolas, monospace" font-size="19">git log --graph --oneline --decorate</text>
+
+  <path d="M56 82 V264" fill="none" stroke="#58a6ff" stroke-width="4"/>
+  <path d="M56 82 C56 104 92 104 92 128 V170 C92 210 56 210 56 236" fill="none" stroke="#3fb950" stroke-width="4"/>
+  <circle cx="56" cy="82" r="8" fill="#58a6ff"/>
+  <circle cx="92" cy="150" r="8" fill="#3fb950"/>
+  <circle cx="56" cy="236" r="8" fill="#58a6ff"/>
+  <circle cx="56" cy="286" r="8" fill="#58a6ff"/>
+  <path d="M56 244 V286" fill="none" stroke="#58a6ff" stroke-width="4"/>
+
+  <text x="120" y="89" fill="#f0f6fc" font-family="Consolas, monospace" font-size="18">9b066b2  merge: complete robust quiz game  (main at merge)</text>
+  <text x="120" y="157" fill="#f0f6fc" font-family="Consolas, monospace" font-size="18">33684b6  feat: complete robust Python quiz game  (feature/quiz-game)</text>
+  <text x="120" y="243" fill="#f0f6fc" font-family="Consolas, monospace" font-size="18">85f4f6e  chore: 다른 과제 파일제거</text>
+  <text x="120" y="293" fill="#8b949e" font-family="Consolas, monospace" font-size="16">feature branch created → work committed → merged into main</text>
+</svg>
