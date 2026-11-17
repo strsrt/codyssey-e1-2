@@ -244,11 +244,25 @@ class QuizGame:
         print("\n🚀 퀴즈를 시작합니다!")
         for number, quiz in enumerate(selected, 1):
             quiz.display(number)
-            use_hint = self.get_input("힌트를 보시겠습니까? (1: 예 / 2: 아니오): ", int, range(1, 3))
-            if use_hint == 1:
-                quiz.show_hint()
-                hint_penalty += 1
-            answer = self.get_input("정답 번호 입력 (1~4): ", int, range(1, 5))
+            used_hint = False
+            while True:
+                answer_input = self.get_input("정답 번호 입력 (1~4, h: 힌트): ").lower()
+                if answer_input == "h":
+                    quiz.show_hint()
+                    if not used_hint:
+                        hint_penalty += 1
+                        used_hint = True
+                    continue
+                try:
+                    answer = int(answer_input)
+                except ValueError:
+                    print("⚠️ 1~4 사이의 숫자 또는 h를 입력해 주세요.")
+                    continue
+                if answer not in range(1, 5):
+                    print("⚠️ 1~4 사이의 숫자를 입력해 주세요.")
+                    continue
+                break
+
             if quiz.is_correct(answer):
                 print("✅ 정답입니다!")
                 correct_answers += 1
