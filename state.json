@@ -8,7 +8,8 @@
                 "append()",
                 "insert()"
             ],
-            "answer": 3
+            "answer": 3,
+            "hint": "리스트의 마지막에 값을 넣는 메서드입니다."
         },
         {
             "question": "Python에서 딕셔너리의 키와 값을 가져오는 메서드는?",
@@ -18,7 +19,8 @@
                 "keys()",
                 "getall()"
             ],
-            "answer": 1
+            "answer": 1,
+            "hint": "키와 값을 함께 쌍으로 제공하는 메서드입니다."
         },
         {
             "question": "반복 가능한 객체의 각 항목을 순회할 때 사용하는 키워드는?",
@@ -28,7 +30,8 @@
                 "loop",
                 "each"
             ],
-            "answer": 2
+            "answer": 2,
+            "hint": "주로 for item in items: 형태로 사용합니다."
         },
         {
             "question": "함수에서 값을 반환할 때 사용하는 키워드는?",
@@ -38,7 +41,8 @@
                 "return",
                 "break"
             ],
-            "answer": 3
+            "answer": 3,
+            "hint": "함수의 결과를 호출자에게 전달할 때 사용합니다."
         },
         {
             "question": "Python에서 참과 거짓을 나타내는 값의 올바른 표기는?",
@@ -48,8 +52,10 @@
                 "True / False",
                 "yes / no"
             ],
-            "answer": 3
+            "answer": 3,
+            "hint": "Python은 대문자 T/F로 시작합니다."
         }
     ],
-    "best_score": null
+    "best_score": null,
+    "score_history": []
 }
