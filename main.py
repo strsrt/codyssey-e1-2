@@ -140,7 +140,21 @@ class QuizGame:
                     "score": score,
                 })
 
-        return quizzes, best_score, score_history
+        score_scale = data.get("score_scale", 1)
+        if type(score_scale) is not int or score_scale not in (1, 100):
+            raise ValueError("score_scale은 1 또는 100이어야 합니다.")
+        if score_scale == 100:
+            if best_score is not None and best_score > 100:
+                raise ValueError("100점 만점에서 best_score는 100을 초과할 수 없습니다.")
+            if any(record["score"] < 0 or record["score"] > 100 for record in score_history):
+                raise ValueError("100점 만점에서 score_history의 점수는 0~100이어야 합니다.")
+        return quizzes, best_score, score_history, score_scale
+
+    @staticmethod
+    def _to_percentage(score, total_questions):
+        if total_questions <= 0:
+            return 0
+        return max(0, min(100, int(score * 100 / total_questions + 0.5)))
 
     def load_data(self):
         if not self.file_path.exists():
@@ -152,7 +166,20 @@ class QuizGame:
 
         try:
             with self.file_path.open("r", encoding="utf-8") as file:
-                self.quizzes, self.best_score, self.score_history = self._parse_state(json.load(file))
+                self.quizzes, self.best_score, self.score_history, score_scale = self._parse_state(json.load(file))
+            if score_scale == 1:
+                self.score_history = [
+                    {
+                        **record,
+                        "score": self._to_percentage(record["score"], record["total_questions"]),
+                    }
+                    for record in self.score_history
+                ]
+                if self.score_history:
+                    self.best_score = max(record["score"] for record in self.score_history)
+                elif self.best_score is not None:
+                    self.best_score = self._to_percentage(self.best_score, len(self.quizzes))
+                self.save_data()
         except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
             print(f"⚠️ 데이터 파일을 읽을 수 없거나 손상되었습니다 ({error}). 기본 퀴즈로 초기화합니다.")
             self.quizzes = self.default_quizzes()
@@ -165,6 +192,7 @@ class QuizGame:
             "quizzes": [quiz.to_dict() for quiz in self.quizzes],
             "best_score": self.best_score,
             "score_history": self.score_history,
+            "score_scale": 100,
         }
         try:
             with self.file_path.open("w", encoding="utf-8") as file:
@@ -240,7 +268,7 @@ class QuizGame:
         selected = quiz_pool[:total_questions]
 
         correct_answers = 0
-        hint_penalty = 0
+        hinted_correct_answers = 0
         print("\n🚀 퀴즈를 시작합니다!")
         for number, quiz in enumerate(selected, 1):
             quiz.display(number)
@@ -249,9 +277,7 @@ class QuizGame:
                 answer_input = self.get_input("정답 번호 입력 (1~4, h: 힌트): ").lower()
                 if answer_input == "h":
                     quiz.show_hint()
-                    if not used_hint:
-                        hint_penalty += 1
-                        used_hint = True
+                    used_hint = True
                     continue
                 try:
                     answer = int(answer_input)
@@ -266,10 +292,13 @@ class QuizGame:
             if quiz.is_correct(answer):
                 print("✅ 정답입니다!")
                 correct_answers += 1
+                if used_hint:
+                    hinted_correct_answers += 1
             else:
                 print(f"❌ 틀렸습니다. 정답은 {quiz.answer}번입니다.")
 
-        final_score = correct_answers - hint_penalty
+        earned_half_points = correct_answers * 2 - hinted_correct_answers
+        final_score = (earned_half_points * 100 + total_questions) // (2 * total_questions)
         previous_best = self.best_score
         record = {
             "played_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -281,7 +310,7 @@ class QuizGame:
             self.best_score = final_score
         self.save_data()
 
-        print(f"\n게임 종료! 정답 수: {correct_answers}/{total_questions}, 최종 점수: {final_score}")
+        print(f"\n게임 종료! 정답 수: {correct_answers}/{total_questions}, 최종 점수: {final_score}/100")
         if previous_best is None or final_score > previous_best:
             print("🎉 최고 점수를 갱신했습니다!")
         elif previous_best is not None and final_score == previous_best:
@@ -291,7 +320,7 @@ class QuizGame:
         if self.best_score is None:
             print("\n아직 퀴즈를 푼 기록이 없습니다.")
         else:
-            print(f"\n🏆 현재 최고 점수: {self.best_score}")
+            print(f"\n🏆 현재 최고 점수: {self.best_score}/100")
 
     def show_score_history(self):
         print("\n--- 점수 기록 ---")
@@ -299,7 +328,7 @@ class QuizGame:
             print("아직 기록된 게임 결과가 없습니다.")
             return
         for index, record in enumerate(self.score_history, 1):
-            print(f"{index}. {record['played_at']} | 문제 수: {record['total_questions']} | 점수: {record['score']}")
+            print(f"{index}. {record['played_at']} | 문제 수: {record['total_questions']} | 점수: {record['score']}/100")
 
     def run(self):
         while True:

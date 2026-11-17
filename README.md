@@ -26,7 +26,8 @@ python quiz_game.py
 
 - 랜덤으로 문제 순서를 섞어 출제
 - 문제 수를 직접 선택해 퀴즈 풀기
-- 힌트 보기 기능과 힌트 사용 시 점수 차감
+- 퀴즈 개수와 무관하게 100점 만점으로 점수 환산
+- 힌트를 사용하고 정답을 맞히면 해당 문제 점수의 절반 반영
 - 새 퀴즈 추가(문제, 선택지 4개, 정답 번호, 힌트)
 - 등록된 퀴즈 삭제
 - 퀴즈 목록 확인
@@ -57,11 +58,12 @@ python quiz_game.py
   - `choices`: 선택지 4개
   - `answer`: 정답 번호(1~4)
   - `hint`: 힌트 문자열
-- `best_score`: 최고 점수
+- `best_score`: 100점 만점 기준 최고 점수
 - `score_history`: 각 게임의 기록 목록
   - `played_at`: 게임 종료 시각
   - `total_questions`: 푼 문제 수
-  - `score`: 최종 점수
+  - `score`: 100점 만점으로 환산한 최종 점수
+- `score_scale`: 점수 기준 버전(현재 `100`); 이전 데이터는 최초 로드 시 백분율 점수로 변환
 
 ```json
 {
@@ -73,14 +75,15 @@ python quiz_game.py
       "hint": "간단한 힌트"
     }
   ],
-  "best_score": 3,
+  "best_score": 60,
   "score_history": [
     {
       "played_at": "2026-11-17 14:00:00",
       "total_questions": 5,
-      "score": 3
+      "score": 60
     }
-  ]
+  ],
+  "score_scale": 100
 }
 ```
 
