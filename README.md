@@ -27,7 +27,7 @@ python quiz_game.py
 - 랜덤으로 문제 순서를 섞어 출제
 - 문제 수를 직접 선택해 퀴즈 풀기
 - 퀴즈 개수와 무관하게 100점 만점으로 점수 환산
-- 힌트를 사용하고 정답을 맞히면 해당 문제 점수의 절반 반영
+- 힌트를 사용하고 정답을 맞히면 해당 문제 배점의 절반 반영
 - 새 퀴즈 추가(문제, 선택지 4개, 정답 번호, 필수 힌트)
 - 기존 퀴즈에 힌트 추가 또는 수정
 - 등록된 퀴즈 삭제
@@ -38,6 +38,8 @@ python quiz_game.py
 - Ctrl+C, EOF 등 안전 종료 처리
 - 상태 파일이 없거나 손상되면 기본 퀴즈 복구
 
+힌트를 사용하지 않고 모든 문제를 맞히면 100점입니다. 점수는 가장 가까운 정수로 반올림합니다.
+
 ## 파일 구조
 
 ```text
@@ -47,12 +49,11 @@ python quiz_game.py
 ├── state.json    # 퀴즈, 최고 점수, 점수 기록 저장 파일
 ├── README.md
 ├── .gitignore
-└── __pycache__/
 ```
 
 ## 데이터 파일 설명
 
-`state.json`은 프로젝트 루트에 위치하며 UTF-8 인코딩으로 저장됩니다. 파일 구조는 다음과 같습니다.
+`state.json`은 `main.py`와 같은 프로젝트 루트에 위치하며 UTF-8 인코딩으로 저장됩니다. 파일이 없으면 기본 퀴즈로 생성하고, 손상된 경우 안내 후 기본 데이터로 초기화합니다. 파일 구조는 다음과 같습니다.
 
 - `quizzes`: 문제 목록
   - `question`: 문제 내용
@@ -87,5 +88,3 @@ python quiz_game.py
   "score_scale": 100
 }
 ```
-
-> Clone practice note: this line was added from the cloned repository.
