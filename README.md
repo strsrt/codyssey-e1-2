@@ -82,6 +82,18 @@ python quiz_game.py
 
 ![점수 기록 예시](screenshots/score-history.png)
 
+## 퀴즈 추가 전후의 `state.json`
+
+퀴즈를 추가하면 새 퀴즈 객체가 `quizzes` 배열의 끝에 저장됩니다. 기존 문제와 최고 점수, 점수 기록은 유지됩니다. 아래 예시에서는 `1234` 문제가 추가된 모습을 확인할 수 있습니다.
+
+### 추가 전
+
+![퀴즈 추가 전 state.json](screenshots/state-before-quiz-add.png)
+
+### 추가 후
+
+![퀴즈 추가 후 state.json](screenshots/state-after-quiz-add.png)
+
 ## 데이터 파일 설명
 
 `state.json`은 `main.py`와 같은 프로젝트 루트에 위치하며 UTF-8 인코딩으로 저장됩니다. 파일이 없으면 기본 퀴즈로 생성하고, 손상된 경우 안내 후 기본 데이터로 초기화합니다. 파일 구조는 다음과 같습니다.
