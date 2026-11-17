@@ -39,6 +39,12 @@ Ctrl+C 또는 입력 스트림 종료 상황에서 저장을 시도한 뒤 안�
 
 ![feature/quiz-game 브랜치 생성 및 main 병합 로그](screenshots/git-branch-history.svg)
 
+### Clone/Pull 실습 기록
+
+- 별도 폴더에 저장소를 복제했습니다: `git clone https://github.com/strsrt/codyssey-e1-2.git <별도-작업폴더>`
+- 복제본의 README를 수정해 커밋하고 푸시했습니다: [`df49c00`](https://github.com/strsrt/codyssey-e1-2/commit/df49c00) (`docs: add clone-practice note`)
+- 원래 작업 폴더에서 `git pull origin main --ff-only`를 실행했습니다. `9b066b2`에서 `df49c00`으로 Fast-forward된 것을 확인했습니다.
+
 ## 퀴즈 주제와 선정 이유
 
 주제는 Python 기본 문법입니다. 리스트, 딕셔너리, 반복문, 함수, 논리값은 실제 프로그래밍을 시작할 때 가장 자주 접하는 개념이어서 선택했습니다.
