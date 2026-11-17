@@ -230,10 +230,27 @@ class QuizGame:
         question = self.get_input("새로운 문제 입력: ")
         choices = [self.get_input(f"선택지 {number} 입력: ") for number in range(1, 5)]
         answer = self.get_input("정답 번호 (1~4): ", int, range(1, 5))
-        hint = input("힌트 입력 (없으면 엔터): ").strip()
+        hint = self.get_input("힌트 입력: ")
         self.quizzes.append(Quiz(question, choices, answer, hint))
         if self.save_data():
             print("✅ 퀴즈가 추가되었습니다!")
+
+    def add_hint(self):
+        if not self.quizzes:
+            print("힌트를 추가할 퀴즈가 없습니다.")
+            return
+
+        print("\n--- 힌트 추가/수정 ---")
+        for number, quiz in enumerate(self.quizzes, 1):
+            hint_status = "힌트 있음" if quiz.hint else "힌트 없음"
+            print(f"{number}. {quiz.question} ({hint_status})")
+
+        index = self.get_input("힌트를 추가할 퀴즈 번호: ", int, range(1, len(self.quizzes) + 1))
+        hint = self.get_input("힌트 입력: ")
+        quiz = self.quizzes[index - 1]
+        quiz.hint = hint
+        if self.save_data():
+            print(f"✅ '{quiz.question}' 퀴즈의 힌트를 저장했습니다.")
 
     def delete_quiz(self):
         if not self.quizzes:
@@ -333,8 +350,8 @@ class QuizGame:
     def run(self):
         while True:
             print("\n--- 퀴즈 게임 메뉴 ---")
-            print("1. 퀴즈 풀기  2. 퀴즈 추가  3. 퀴즈 목록  4. 최고 점수 확인  5. 퀴즈 삭제  6. 점수 기록  7. 종료")
-            choice = self.get_input("선택: ", int, range(1, 8))
+            print("1. 퀴즈 풀기  2. 퀴즈 추가  3. 퀴즈 목록  4. 최고 점수 확인  5. 퀴즈 삭제  6. 점수 기록  7. 힌트 추가/수정  8. 종료")
+            choice = self.get_input("선택: ", int, range(1, 9))
             if choice == 1:
                 self.play_game()
             elif choice == 2:
@@ -347,6 +364,8 @@ class QuizGame:
                 self.delete_quiz()
             elif choice == 6:
                 self.show_score_history()
+            elif choice == 7:
+                self.add_hint()
             else:
                 print("게임을 종료합니다.")
                 self.save_data()
