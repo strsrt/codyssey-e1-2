@@ -63,9 +63,24 @@ python quiz_game.py
 ├── main.py       # Quiz, QuizGame 클래스와 게임 로직
 ├── quiz_game.py  # main.py를 호출하는 실행 진입점
 ├── state.json    # 퀴즈, 최고 점수, 점수 기록 저장 파일
+├── screenshots/  # README 실행 예시 이미지
 ├── README.md
 ├── .gitignore
 ```
+
+## 실행 화면 예시
+
+### 게임 메뉴
+
+![게임 메뉴](screenshots/menu.png)
+
+### 퀴즈 풀기와 힌트 사용
+
+![퀴즈 풀이와 힌트 사용 예시](screenshots/quiz-hints.png)
+
+### 점수 기록 확인
+
+![점수 기록 예시](screenshots/score-history.png)
 
 ## 데이터 파일 설명
 
