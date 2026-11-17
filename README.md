@@ -39,6 +39,31 @@ Ctrl+C 또는 입력 스트림 종료 상황에서 저장을 시도한 뒤 안�
 
 ![feature/quiz-game 브랜치 생성 및 main 병합 로그](screenshots/git-branch-history.svg)
 
+### 커밋 단위 및 메시지 규칙
+
+- 한 커밋에는 하나의 독립적이고 일관된 변경만 담습니다. 서로 관계없는 기능·문서 변경은 별도 커밋으로 나눕니다.
+- 변경에 필요한 테스트와 문서는 해당 기능 커밋에 함께 포함하고, 검증이 끝난 변경을 커밋합니다.
+- 제목은 `<type>: <간결한 변경 요약>` 형식으로 작성하고 마침표는 붙이지 않습니다. 필요하면 본문에 변경 이유와 검증 방법을 적습니다.
+- 사용 유형: `feat`(기능), `fix`(수정), `docs`(문서), `test`(테스트), `refactor`(구조 개선), `chore`(기타 작업)
+
+템플릿:
+
+```text
+<type>: <변경 요약>
+
+<변경 이유와 주요 내용>
+<실행한 검증과 결과>
+```
+
+예시:
+
+```text
+feat: add quiz hint management
+
+퀴즈 등록 시 힌트를 입력하고 기존 퀴즈의 힌트를 수정할 수 있도록 한다.
+검증: python -m unittest discover -s tests -v
+```
+
 ### Clone/Pull 실습 기록
 
 - 별도 폴더에 저장소를 복제했습니다: `git clone https://github.com/strsrt/codyssey-e1-2.git <별도-작업폴더>`
