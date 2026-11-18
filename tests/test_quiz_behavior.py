@@ -33,6 +33,12 @@ class QuizBehaviorTests(unittest.TestCase):
         self.assertIn("숫자가 필요한", output.getvalue())
         self.assertIn("허용된 범위", output.getvalue())
 
+    def test_get_input_allows_empty_optional_hint(self):
+        with patch("builtins.input", return_value="   "):
+            hint = self.game.get_input("Hint: ", allow_empty=True)
+
+        self.assertEqual(hint, "")
+
     def test_get_input_converts_eof_to_graceful_exit(self):
         output = io.StringIO()
         with patch("builtins.input", side_effect=EOFError), redirect_stdout(output):

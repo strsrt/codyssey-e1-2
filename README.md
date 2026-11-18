@@ -84,7 +84,15 @@ feat: add quiz hint management
 
 ## 실행 방법
 
-Python 3가 설치된 환경에서 프로젝트 폴더로 이동해 다음 명령으로 실행합니다.
+### 개발 환경 버전
+
+| 도구 | 버전 |
+| --- | --- |
+| Python | 3.12.10 |
+| Git | 2.56.0.windows.4 |
+| Visual Studio Code | 1.145.2 |
+
+Python이 설치된 환경에서 프로젝트 폴더로 이동해 다음 명령으로 실행합니다.
 
 ```text
 python main.py
@@ -102,7 +110,7 @@ python quiz_game.py
 - 문제 수를 직접 선택해 퀴즈 풀기
 - 퀴즈 개수와 무관하게 100점 만점으로 점수 환산
 - 힌트를 사용하고 정답을 맞히면 해당 문제 배점의 절반 반영
-- 새 퀴즈 추가(문제, 선택지 4개, 정답 번호, 필수 힌트)
+- 새 퀴즈 추가(문제, 선택지 4개, 정답 번호, 선택 힌트)
 - 기존 퀴즈에 힌트 추가 또는 수정
 - 등록된 퀴즈 삭제
 - 퀴즈 목록 확인
@@ -116,7 +124,7 @@ python quiz_game.py
 
 ## 테스트 실행 기록
 
-`Quiz.is_correct`의 정답/오답 판정과 `QuizGame.get_input`의 공백 제거, 잘못된 입력 재요청, EOF 안전 종료를 테스트합니다. 프로젝트 루트에서 다음 명령으로 실행합니다.
+`Quiz.is_correct`의 정답/오답 판정과 `QuizGame.get_input`의 공백 제거, 빈 입력 재요청·선택 힌트 허용, 잘못된 입력 재요청, EOF 안전 종료를 테스트합니다. 프로젝트 루트에서 다음 명령으로 실행합니다.
 
 ```powershell
 python -m unittest discover -s tests -v

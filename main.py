@@ -212,7 +212,7 @@ class QuizGame:
             return False
         return True
 
-    def get_input(self, prompt, input_type=str, valid_range=None):
+    def get_input(self, prompt, input_type=str, valid_range=None, allow_empty=False):
         while True:
             try:
                 value = input(prompt).strip()
@@ -220,9 +220,12 @@ class QuizGame:
                 print("\n👋 입력이 중단되어 데이터를 저장하고 안전하게 종료합니다.")
                 raise GracefulExit from error
 
-            if not value:
+            if not value and not allow_empty:
                 print("⚠️ 입력이 비어 있습니다. 다시 입력해 주세요.")
                 continue
+
+            if not value:
+                return value
 
             try:
                 converted = input_type(value)
@@ -239,7 +242,7 @@ class QuizGame:
         question = self.get_input("새로운 문제 입력: ")
         choices = [self.get_input(f"선택지 {number} 입력: ") for number in range(1, 5)]
         answer = self.get_input("정답 번호 (1~4): ", int, range(1, 5))
-        hint = self.get_input("힌트 입력: ")
+        hint = self.get_input("힌트 입력 (선택): ", allow_empty=True)
         self.quizzes.append(Quiz(question, choices, answer, hint))
         if self.save_data():
             print("✅ 퀴즈가 추가되었습니다!")
@@ -255,7 +258,7 @@ class QuizGame:
             print(f"{number}. {quiz.question} ({hint_status})")
 
         index = self.get_input("힌트를 추가할 퀴즈 번호: ", int, range(1, len(self.quizzes) + 1))
-        hint = self.get_input("힌트 입력: ")
+        hint = self.get_input("힌트 입력 (선택): ", allow_empty=True)
         quiz = self.quizzes[index - 1]
         quiz.hint = hint
         if self.save_data():
